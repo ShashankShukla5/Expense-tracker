@@ -1,0 +1,41 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,300,regular,500,600,700,100italic,200italic,300italic,italic,500italic,600italic,700italic);
+@import "tailwindcss";
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background: linear-gradient(90deg, rgba(47,60,126,1) 0%, rgba(48,48,48,1) 100%);
+  /* background: -webkit-linear-gradient(180deg, hsla(285, 28%, 55%, 1) 0%, hsla(0, 0%, 0%, 1) 100%); */
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  place-items: center;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: 100%;
+}

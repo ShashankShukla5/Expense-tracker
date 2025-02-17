@@ -1,0 +1,16 @@
+{<li className="flex w-[95%] bg-[#FBEAEB] rounded-xl gap-20 p-5 mb-3">
+    <div className="flex flex-col justify-between w-[70%]">
+      <div className="flex justify-between gap-7 mb-3">
+        <p className="font-bold">Spices</p>
+        <p>02-03-25</p>
+        <p>food</p>
+        <p className="text-green-500 font-bold">₹ 500</p>
+      </div>
+      <p className="w-[70%]">aaaaaaaaaaaaaaaaaa</p>
+    </div>
+    <div className="flex items-center gap-5">
+      {/* {isTodoEditable ? "📁" : "✏️"} */}
+      <Button name={"✏️"} className="hover:bg-[#656e9f] duration-200"/>
+      <Button name={"❌"} className="hover:bg-[#656e9f] duration-200" />
+    </div>
+  </li>}
