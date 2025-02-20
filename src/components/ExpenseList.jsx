@@ -1,39 +1,29 @@
-import React, {useState, useRef} from "react";
+import React, {useState} from "react";
 import { Button } from "./index";
 import { useEffect } from "react";
-import appwriteConf from "../appwrite/conf";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { removeExpense, allExpenses, getAnExpense } from "../store/expenseSlice";
 
-function ExpenseList({ expenses, setExpenses }) {
-  const isInitialMount = useRef(true);
+function ExpenseList({refresh, setRefresh}) {
   let datePart = ""
+  const dispatch = useDispatch()
+  
+  // dispatch(allExpenses())
+  const expenses = useSelector((state)=>state.expenses.expenseStore)
+  // const isTodoEditable = useSelector((state)=>state.expenses.isTodoEditable)
 
+  const updateList = (id)=> {
+    dispatch(getAnExpense(id))
+  }
   const deleteExp = async (id) => {
-    try {
-      await appwriteConf.deleteExpense(id)
-      setExpenses((prevData) => prevData.filter((expense) => expense.$id !== id));
-    } catch (error) {
-      console.log(error.message)
-    }
+    dispatch(removeExpense(id))
+    setRefresh((prev)=>!prev)
   }
 
   useEffect(() => {
-    if(isInitialMount.current){
-      const getAllDoc = async () => {
-        try {
-          setExpenses((await appwriteConf.getExpenses()).documents);
-          isInitialMount.current = false; 
-        } catch (error) {
-          console.log(error.message);
-        }
-      };
-      getAllDoc();
-    }else{
-      setExpenses(expenses)
-
-    }
-    
-    
-  }, [expenses]);
+    dispatch(allExpenses())
+  }, [refresh]);
 
   return (
     <div className="flex w-screen flex-1 justify-center py-7 overflow-y-auto">
@@ -51,10 +41,11 @@ function ExpenseList({ expenses, setExpenses }) {
                 <p className="w-[70%]">{data.description}</p>
               </div>
               <div className="flex items-center gap-5">
-                {/* {isTodoEditable ? "📁" : "✏️"} */}
+                
                 <Button
-                  name={"✏️"}
+                  name={data.editable ? "📁" : "✏️"}
                   className="hover:bg-[#656e9f] duration-200"
+                  onClick={()=>updateList(data.$id)}
                 />
                 <Button
                   name={"❌"}

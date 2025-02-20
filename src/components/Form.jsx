@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Button } from "./index";
 import { useForm } from "react-hook-form";
-import appwriteConf from "../appwrite/conf";
+import { useDispatch, useSelector} from "react-redux";
+import { newExpense, allExpenses, updateAnExpense } from "../store/expenseSlice";
 
-function Form({ prevExp, setExpenses }) {
-  
+function Form({setRefresh}) {
+  const prevExp = useSelector((state)=>state.expenses.expense)
+  // console.log(prevExp.editable)
   const { register, handleSubmit, reset} = useForm({
     defaultValues: {
       name: prevExp?.name || "",
@@ -14,19 +16,32 @@ function Form({ prevExp, setExpenses }) {
       description: prevExp?.description || "",
     },
   });
+  const dispatch = useDispatch()
 
   const dataSubmit = async (data) => {
-    try {
-      console.log(data);
-      if (data) {
-        const userExp = await appwriteConf.createExpense(data);
-        reset();
-        setExpenses((prevExpenses) => [...prevExpenses, userExp]);
-      }
-    } catch (error) {
-      console.log(error.message)
+    if(prevExp.editable){
+      // console.log(data)
+      const id = prevExp.$id
+      dispatch(updateAnExpense({id, data}))
+    }else{
+      dispatch(newExpense(data))
     }
+    dispatch(allExpenses())
+    setRefresh((prev)=>!prev)
+    reset()
   };
+
+  useEffect(() => {
+    if (prevExp) {
+      reset({
+        name: prevExp.name || "",
+        amount: prevExp.amount || "",
+        category: prevExp.category || "",
+        date: prevExp.date || "",
+        description: prevExp.description || "",
+      });
+    }
+  }, [prevExp, reset]);
 
 
   return (
@@ -104,7 +119,7 @@ function Form({ prevExp, setExpenses }) {
               required: false,
             })}
           />
-          <Button name="Add Expense" className="min-w-3xs" />
+          <Button name={prevExp.editable ? "Update Expense" : "Add Expense"} className="min-w-3xs" />
         </div>
       </div>
     </form>
