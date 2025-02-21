@@ -8,5 +8,6 @@ import Login from './Login'
 import Input from './Input'
 import Signup from './Signup'
 import Logout from './Logout'
+import ExpenseChart from './ExpenseChart'
 
-export {Button, Home, Expenses, Form, ExpenseList, Header, Login, Input, Signup, Logout}
+export {Button, Home, Expenses, Form, ExpenseList, Header, Login, Input, Signup, Logout, ExpenseChart}
